@@ -90,7 +90,7 @@ class PatternContainer{
 				for(int j=0;j<SMS.size();j++)
 				{
 					string temp;
-					//temp.append(" ");
+					temp.append(" ");
 					temp.append(pattern[i].getPatternName());
 					temp.append(" ");
 					if(SMS[j].find(temp)!=string::npos)
@@ -158,53 +158,52 @@ class PatternContainer{
 			return 1;
 		}
 };
-class PatternDatabase{
-	private: 
-		vector<PatternContainer> lengthPatternSet;
-	public:
-		PatternDatabase()
-		{
+// class PatternDatabase{
+// 	private: 
+// 		vector<PatternContainer> lengthPatternSet;
+// 	public:
+// 		PatternDatabase()
+// 		{
 
-		}
-		PatternDatabase(vector<PatternContainer> PatternSet)
-		{
-			lengthPatternSet=PatternSet;
-		}
-		vector<PatternContainer> getLengthPattern()
-		{
-			return lengthPatternSet;
-		}
-		bool addLengthPattern(PatternContainer PC , int length)
-		{
-			lengthPatternSet.push_back(PC);
-			return 1;
-		}
-};
-PatternDatabase PDB;
+// 		}
+// 		PatternDatabase(vector<PatternContainer> PatternSet)
+// 		{
+// 			lengthPatternSet=PatternSet;
+// 		}
+// 		vector<PatternContainer> getLengthPattern()
+// 		{
+// 			return lengthPatternSet;
+// 		}
+// 		bool addLengthPattern(PatternContainer PC , int length)
+// 		{
+// 			lengthPatternSet.push_back(PC);
+// 			return 1;
+// 		}
+// };
+// PatternDatabase PDB;
 vector<PatternUnit> AllCandidatePattern;
 class BasicTrainingClass
 {
 	public:
-		BasicTrainingClass(float valueThreshold, int maxLengthOfPattern, int numOfLengthOnePattern)
+		BasicTrainingClass(int maxLengthOfPattern, int numOfLengthOnePattern)
 		{
-			this->valueThreshold=valueThreshold;
 			this->maxLengthOfPattern=maxLengthOfPattern;
 			this->numOfLengthOnePattern=numOfLengthOnePattern;
 		}
-		float getValueThreshold()
-		{
-			return valueThreshold;
-		}
+		// float getValueThreshold()
+		// {
+		// 	return valueThreshold;
+		// }
 		virtual void training()=0;
-		float valueThreshold;
+		// float valueThreshold;
 		int maxLengthOfPattern;
 		int numOfLengthOnePattern;
 };
 class TrainingClass_Apriori: public BasicTrainingClass
 {
 	public:
-		TrainingClass_Apriori(float valueThreshold, int maxLengthOfPattern, int numOfLengthOnePattern):
-										 BasicTrainingClass(valueThreshold, maxLengthOfPattern, numOfLengthOnePattern){}
+		TrainingClass_Apriori(int maxLengthOfPattern, int numOfLengthOnePattern):
+										 BasicTrainingClass( maxLengthOfPattern, numOfLengthOnePattern){}
 		void run()
 		{
 			training();
@@ -283,7 +282,7 @@ class TrainingClass_Apriori: public BasicTrainingClass
 			generateOneLengthPattern(PC);		
 			
 			PC.evaluatePatternValue();
-			PC.SortPattern(10);
+			PC.SortPattern(20);
 
 			// for(int i=0;i<PC.getChoosePattern().size();i++)
 			// {
@@ -291,7 +290,7 @@ class TrainingClass_Apriori: public BasicTrainingClass
 			// 	<<"Spam Frequency: "<<(PC.getChoosePattern()[i]).getSpamFrequency()<<" Normal Frequency: "
 			// 	<<(PC.getChoosePattern()[i]).getNormalFrequency()<<" error rate: "<<(PC.getChoosePattern()[i]).getValue()<<endl;		
 			// }
-			PDB.addLengthPattern(PC,1);
+			// PDB.addLengthPattern(PC,1);
 			nPlusOnePattern(maxLengthOfPattern,maxLengthOfPattern,-1,"",PC.getChoosePattern().size(),PC.getChoosePattern());
 			// for(int i=0;i<AllCandidatePattern.size();i++)
 			// {
@@ -311,7 +310,8 @@ class TrainingClass_Apriori: public BasicTrainingClass
 					int findTimes=0;				
 					for(int k=0;k<workVector.size();k++)
 					{
-						string tmp=workVector[k];
+						string tmp=" ";
+						tmp.append(workVector[k]);
 						tmp.append(" ");
 						if(SMS[j].find(tmp)!=std::string::npos)
 						{
@@ -328,7 +328,8 @@ class TrainingClass_Apriori: public BasicTrainingClass
 					int findTimes=0;
 					for(int k=0;k<workVector.size();k++)
 					{
-						string tmp=workVector[k];
+						string tmp=" ";
+						tmp.append(workVector[k]);
 						tmp.append(" ");
 						if(SpamSMS[j].find(tmp)!=std::string::npos)
 						{
@@ -370,8 +371,8 @@ class TrainingClass_Sample: public BasicTrainingClass
 {
 	
 	public:
-		TrainingClass_Sample(float valueThreshold,int maxLengthOfPattern, int numOfLengthOnePattern): 
-						BasicTrainingClass(valueThreshold, maxLengthOfPattern, numOfLengthOnePattern)
+		TrainingClass_Sample(int maxLengthOfPattern, int numOfLengthOnePattern): 
+						BasicTrainingClass( maxLengthOfPattern, numOfLengthOnePattern)
 		{
 			
 		}
@@ -413,7 +414,7 @@ void readSMSTrainingData()
 }
 int main(int argc, char* argv[]){
 	readSMSTrainingData();
-	TrainingClass_Apriori TA(0.0125,3,10);
+	TrainingClass_Apriori TA(3,10);
 	TA.run();
 	return 0;
 }
