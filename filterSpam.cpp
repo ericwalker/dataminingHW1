@@ -15,10 +15,16 @@ class PatternUnit{
 		float value;
 		int patternLength;
 	public:
+		PatternUnit(string patternName)
+		{
+			this->patternName=patternName;
+			this->freqInSpamOccur=0;
+			this->freqInNormalOccur=0;	
+		}
 		PatternUnit(string patternName, int length)
 		{
 			this->patternName=patternName;
-			this->freqInSpamOccur=1;
+			this->freqInSpamOccur=0;
 			this->freqInNormalOccur=0;
 			this->patternLength=length;
 		}
@@ -41,6 +47,10 @@ class PatternUnit{
 		int getNormalFrequency()
 		{
 			return freqInNormalOccur;
+		}
+		void setLength(int length)
+		{
+			this->patternLength=length;
 		}
 		int getLength()
 		{
@@ -80,7 +90,7 @@ class PatternContainer{
 				for(int j=0;j<SMS.size();j++)
 				{
 					string temp;
-					temp.append(" ");
+					//temp.append(" ");
 					temp.append(pattern[i].getPatternName());
 					temp.append(" ");
 					if(SMS[j].find(temp)!=string::npos)
@@ -101,18 +111,20 @@ class PatternContainer{
 		{
 			//vector<PatternUnit>::iterator PatternIterator;
 			sort(pattern.begin(),pattern.end(),sortPatternUnit);
-			for(int i=0;i<numOfPattern;i++)
-			{
-				choosePattern.push_back(pattern[i]);
+			if(numOfPattern>0)
+			{				
+				for(int i=0;i<numOfPattern;i++)
+				{
+					choosePattern.push_back(pattern[i]);
+				}				
 			}
-
 		}
 		vector<PatternUnit> getPattern()
 		{
 			return pattern;
 		}
 		int findAndIncPatternFreq(PatternUnit PU)
-		{
+		{			
 			bool isFind=false;
 			for(int i=0;i<pattern.size();i++)
 			{
@@ -133,9 +145,16 @@ class PatternContainer{
 		{
 			return lengthOfPattern;  
 		}
+		void setPatternVector(vector<PatternUnit> PC)
+		{
+			pattern=PC;
+		}
 		bool addPatternUnit(PatternUnit PU)
 		{
 			pattern.push_back(PU);
+			// cout<<pattern.size()<<endl;
+			// char a;
+			// cin>>a;
 			return 1;
 		}
 };
@@ -161,10 +180,8 @@ class PatternDatabase{
 			return 1;
 		}
 };
-
-
 PatternDatabase PDB;
-
+vector<PatternUnit> AllCandidatePattern;
 class BasicTrainingClass
 {
 	public:
@@ -225,6 +242,7 @@ class TrainingClass_Apriori: public BasicTrainingClass
 					if(wordVector[j]!="spam")
 					{
 						PatternUnit PU(wordVector[j],1);
+						// cout<<"QQ"<<endl;
 						if((tempFreq=PC.findAndIncPatternFreq(PU))==0)
 						{
 							PC.addPatternUnit(PU);
@@ -235,25 +253,116 @@ class TrainingClass_Apriori: public BasicTrainingClass
 				}
 			}
 		}
-				
+		void nPlusOnePattern(int n, int maxLengthPattern, int j,string currentPattern,int lengthOfOneWordPattern,vector<PatternUnit> oneWordPattern)
+		{
+			if(maxLengthPattern-n>0&&n>=0)
+			{
+				PatternUnit PU(currentPattern,maxLengthPattern-n);
+				AllCandidatePattern.push_back(PU);						
+			}			
+			if(n>0)
+			{
+				for(int i=j+1;i<lengthOfOneWordPattern;i++)
+				{
+					string temp=currentPattern;
+					temp.append(oneWordPattern[i].getPatternName());
+					temp.append(" ");
+					nPlusOnePattern(n-1,maxLengthPattern,i,temp,lengthOfOneWordPattern,oneWordPattern);
+				}	
+			}
+			
+		}	
 		void training()
 		{  
-			for (int i=1;i<=this->maxLengthOfPattern;i++)
-			{
-				PatternContainer PC(i);
-				PDB.addLengthPattern(PC,i);
-			}
-			PatternContainer PC=PDB.getLengthPattern()[0];		
-			generateOneLengthPattern(PC);			
+			// for (int i=1;i<=this->maxLengthOfPattern;i++)
+			// {
+			// 	PatternContainer PC(i);
+			// 	PDB.addLengthPattern(PC,i);
+			// }
+			PatternContainer PC(1);		
+			generateOneLengthPattern(PC);		
+			
 			PC.evaluatePatternValue();
 			PC.SortPattern(10);
-			for(int i=0;i<PC.getChoosePattern().size();i++)
+
+			// for(int i=0;i<PC.getChoosePattern().size();i++)
+			// {
+			// 	cout<<"Current Pattern: "<<(PC.getChoosePattern()[i]).getPatternName()<<"           "
+			// 	<<"Spam Frequency: "<<(PC.getChoosePattern()[i]).getSpamFrequency()<<" Normal Frequency: "
+			// 	<<(PC.getChoosePattern()[i]).getNormalFrequency()<<" error rate: "<<(PC.getChoosePattern()[i]).getValue()<<endl;		
+			// }
+			PDB.addLengthPattern(PC,1);
+			nPlusOnePattern(maxLengthOfPattern,maxLengthOfPattern,-1,"",PC.getChoosePattern().size(),PC.getChoosePattern());
+			// for(int i=0;i<AllCandidatePattern.size();i++)
+			// {
+			// 	cout<<"Pattern: "<<AllCandidatePattern[i].getPatternName()<<endl;
+			// }
+			// cout<<"Total Candidate Pattern: "<<AllCandidatePattern.size()<<endl;
+			// char a;
+			// cin>>a;
+
+			for(int i=0;i<AllCandidatePattern.size();i++)
+			{				
+				vector<string> workVector=splitStringToWords(AllCandidatePattern[i].getPatternName()," ");
+
+				AllCandidatePattern[i].setLength(workVector.size());
+				for(int j=0;j<SMS.size();j++)
+				{
+					int findTimes=0;				
+					for(int k=0;k<workVector.size();k++)
+					{
+						string tmp=workVector[k];
+						tmp.append(" ");
+						if(SMS[j].find(tmp)!=std::string::npos)
+						{
+							findTimes++;							
+						}
+					}		
+					if(findTimes==workVector.size())
+					{
+						AllCandidatePattern[i].incNormalPatternFreq();
+					}
+				}
+				for(int j=0;j<SpamSMS.size();j++)
+				{
+					int findTimes=0;
+					for(int k=0;k<workVector.size();k++)
+					{
+						string tmp=workVector[k];
+						tmp.append(" ");
+						if(SpamSMS[j].find(tmp)!=std::string::npos)
+						{
+							findTimes++;
+						}
+					}		
+					if(findTimes==workVector.size())
+					{
+						AllCandidatePattern[i].incSpamPatternFreq();
+					}
+				}				
+			}
+			PatternContainer candidatePC(3);
+			candidatePC.setPatternVector(AllCandidatePattern);
+			candidatePC.evaluatePatternValue();
+			candidatePC.SortPattern(20);
+			for(int i=0;i<candidatePC.getChoosePattern().size();i++)
 			{
-				cout<<"Current Pattern: "<<(PC.getChoosePattern()[i]).getPatternName()<<"           "
-				<<"Spam Frequency: "<<(PC.getChoosePattern()[i]).getSpamFrequency()<<" Normal Frequency: "
-				<<(PC.getChoosePattern()[i]).getNormalFrequency()<<" error rate: "<<(PC.getChoosePattern()[i]).getValue()<<endl;		
+				cout<<"Current Pattern: "<<candidatePC.getChoosePattern()[i].getPatternName()<<"           "
+				<<"Spam Frequency: "<<candidatePC.getChoosePattern()[i].getSpamFrequency()<<" Normal Frequency: "
+				<<candidatePC.getChoosePattern()[i].getNormalFrequency()<<" error rate: "<<candidatePC.getChoosePattern()[i].getValue()<<endl;		
 			}
 
+			// for(int i=0;i<PDB.getLengthPattern().size();i++)
+			// {
+			// 	for(int j=0;j<PDB.getLengthPattern()[i].getPattern().size();j++)
+			// 	{
+			// 		cout<<"Pattern: "<<PDB.getLengthPattern()[i].getPattern()[j].getPatternName()<<endl;
+					
+			// 	}
+			// 	char a;
+			// 		cin>>a;
+			// }
+			
 		}
 
 };
