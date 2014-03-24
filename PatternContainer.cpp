@@ -1,17 +1,20 @@
 #include "PatternContainer.h"
 using namespace std;
+bool operator== (PatternUnit& a ,PatternUnit& b) {
+	return (a.getPatternName()==b.getPatternName()&&a.getLength()==b.getLength());
+}
 void PatternContainer::evaluatePatternValue()
 {
 			//cout<<PC.getPattern().size()<<endl;
 	for(int i=0;i<PatternContainer::pattern.size();i++)
 	{
-		for(int j=0;j<GlobalVariable::SMS.size();j++)
+		for(int j=0;j<SMS.size();j++)
 		{
 			string temp;
 			temp.append(" ");
 			temp.append(PatternContainer::pattern[i].getPatternName());
 			temp.append(" ");
-			if(GlobalVariable::SMS[j].find(temp)!=string::npos)
+			if(SMS[j].find(temp)!=string::npos)
 			{
 				PatternContainer::pattern[i].incNormalPatternFreq();
 			}	

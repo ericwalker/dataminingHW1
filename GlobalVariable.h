@@ -1,9 +1,9 @@
 #ifndef GLOBALVARIABLE_H
 #define GLOBALVARIABLE_H
-class GlobalVariable
-{
-	public:
-		static std::vector<std::string> SMS;
-		static std::vector<std::string> SpamSMS;
-};
+#include <iostream>
+#include <vector>
+
+		extern std::vector<std::string> SMS;
+		extern std::vector<std::string> SpamSMS;
+
 #endif

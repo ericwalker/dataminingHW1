@@ -35,5 +35,5 @@ float PatternUnit::getValue() const
 }
 void PatternUnit::calValue()
 {
-	this->value=(float)(freqInSpamOccur-freqInNormalOccur)/(GlobalVariable::SMS.size()+GlobalVariable::SpamSMS.size());
+	this->value=(float)(freqInSpamOccur-freqInNormalOccur)/(SMS.size()+SpamSMS.size());
 }

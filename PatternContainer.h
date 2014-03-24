@@ -1,8 +1,7 @@
 #ifndef PATTERN_CONTAINER_H
 #define PATTERN_CONTAINER_H
 #include "PatternUnit.h"
-#include <iostream>
-#include <vector>
+#include "GlobalVariable.h"
 class PatternContainer{
 private:
 	static bool sortPatternUnit(const PatternUnit PU_A,const PatternUnit PU_B)
@@ -13,10 +12,10 @@ private:
 	std::vector<PatternUnit> choosePattern;
 	int lengthOfPattern;
 public:  
-	PatternContainer(int length);
-	// {
-	// 	this->lengthOfPattern=length;
-	// }
+	PatternContainer(int length)
+	{
+		this->lengthOfPattern=length;
+	}
 	void evaluatePatternValue();
 		// {
 		// 	//cout<<PC.getPattern().size()<<endl;
@@ -93,8 +92,6 @@ public:
 		// 	return 1;
 		// }
 };
-bool operator== (PatternUnit& a ,PatternUnit& b) {
-	return (a.getPatternName()==b.getPatternName()&&a.getLength()==b.getLength());
-}
+
 
 #endif

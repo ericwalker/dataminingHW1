@@ -1,12 +1,7 @@
 #include <iostream>
-#include <vector>
 #include <fstream>
-#include "PatternUnit.h"
-#include "PatternContainer.h"
-#include "BasicTrainingClass.h"
-#include "TrainingClassApriori.h"
-#include "TrainingClass_Sample.h"
 #include "GlobalVariable.h"
+#include "TrainingClassApriori.h"
 #define STRING_LENGTH 256
 using namespace std;
 
@@ -22,7 +17,7 @@ void readSMSTrainingData()
 			//  cout<<tempStr<<endl;
 			if(tempStr.find("spam")==0)
 			{
-				GlobalVariable::SpamSMS.push_back(tempStr);
+				SpamSMS.push_back(tempStr);
 			//	cout<<"------------------------------"<<endl;
 			//	cout<<"This Message is Spam SMS"<<endl;
 			}
@@ -30,7 +25,7 @@ void readSMSTrainingData()
 			{
 			//	cout<<"------------------------------"<<endl;
 			//	cout<<"This Message is normal SMS"<<endl;
-				GlobalVariable::SMS.push_back(tempStr);
+				SMS.push_back(tempStr);
 			}
 
 		}

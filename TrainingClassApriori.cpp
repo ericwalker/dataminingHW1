@@ -23,10 +23,10 @@ vector<string> TrainingClassApriori::splitStringToWords(string inputString,strin
 }
 void TrainingClassApriori::generateOneLengthPattern(PatternContainer& PC)
 {				
-	for(int i=0;i<GlobalVariable::SpamSMS.size();i++)
+	for(int i=0;i<SpamSMS.size();i++)
 	{
 		vector<string> wordVector;
-		wordVector=splitStringToWords(GlobalVariable::SpamSMS[i],"	 ,/?.;&");
+		wordVector=splitStringToWords(SpamSMS[i],"	 ,/?.;&");
 
 		int tempFreq=0;
 		for(int j=0;j<wordVector.size();j++)
@@ -79,7 +79,7 @@ void TrainingClassApriori::training()
 		vector<string> workVector=splitStringToWords(AllCandidatePattern[i].getPatternName()," ");
 
 		AllCandidatePattern[i].setLength(workVector.size());
-		for(int j=0;j<GlobalVariable::SMS.size();j++)
+		for(int j=0;j<SMS.size();j++)
 		{
 			int findTimes=0;				
 			for(int k=0;k<workVector.size();k++)
@@ -87,7 +87,7 @@ void TrainingClassApriori::training()
 				string tmp=" ";
 				tmp.append(workVector[k]);
 				tmp.append(" ");
-				if(GlobalVariable::SMS[j].find(tmp)!=std::string::npos)
+				if(SMS[j].find(tmp)!=std::string::npos)
 				{
 					findTimes++;							
 				}
@@ -97,7 +97,7 @@ void TrainingClassApriori::training()
 				AllCandidatePattern[i].incNormalPatternFreq();
 			}
 		}
-		for(int j=0;j<GlobalVariable::SpamSMS.size();j++)
+		for(int j=0;j<SpamSMS.size();j++)
 		{
 			int findTimes=0;
 			for(int k=0;k<workVector.size();k++)
@@ -105,7 +105,7 @@ void TrainingClassApriori::training()
 				string tmp=" ";
 				tmp.append(workVector[k]);
 				tmp.append(" ");
-				if(GlobalVariable::SpamSMS[j].find(tmp)!=std::string::npos)
+				if(SpamSMS[j].find(tmp)!=std::string::npos)
 				{
 					findTimes++;
 				}

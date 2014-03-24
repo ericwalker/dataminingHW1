@@ -3,8 +3,6 @@
 #include <iostream>
 #include <sstream>
 #include "BasicTrainingClass.h"
-#include "PatternUnit.h"
-#include "PatternContainer.h"
 #include "GlobalVariable.h"
 using namespace std;
 class TrainingClassApriori: public BasicTrainingClass

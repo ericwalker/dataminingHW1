@@ -17,10 +17,8 @@ class BasicTrainingClass
 		// {
 		// 	return valueThreshold;
 		// }
-		void training()
-		{
-			std::cout<<"Basic Training."<<std::endl;
-		};
+		virtual void training()=0;
+		
 
 		// float valueThreshold;
 		int maxLengthOfPattern;
