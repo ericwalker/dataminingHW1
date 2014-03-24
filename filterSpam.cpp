@@ -6,6 +6,7 @@
 #include "BasicTrainingClass.h"
 #include "TrainingClassApriori.h"
 #include "TrainingClass_Sample.h"
+#include "GlobalVariable.h"
 #define STRING_LENGTH 256
 using namespace std;
 
