@@ -4,6 +4,7 @@
 #include "PatternUnit.h"
 #include "PatternContainer.h"
 #define MAX_LENGTH 3
+
 class BasicTrainingClass
 {
 	public:
@@ -20,6 +21,7 @@ class BasicTrainingClass
 		{
 			std::cout<<"Basic Training."<<std::endl;
 		};
+
 		// float valueThreshold;
 		int maxLengthOfPattern;
 		int numOfLengthOnePattern;

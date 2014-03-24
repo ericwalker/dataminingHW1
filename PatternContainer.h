@@ -9,7 +9,6 @@ private:
 		{
 			return PU_A.getValue()>PU_B.getValue();
 		}
-
 	std::vector<PatternUnit> pattern;
 	std::vector<PatternUnit> choosePattern;
 	int lengthOfPattern;
@@ -97,4 +96,5 @@ public:
 bool operator== (PatternUnit& a ,PatternUnit& b) {
 	return (a.getPatternName()==b.getPatternName()&&a.getLength()==b.getLength());
 }
+
 #endif

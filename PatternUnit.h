@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include "GlobalVariable.h"
+
 class PatternUnit{
 	private:
 		std::string patternName;

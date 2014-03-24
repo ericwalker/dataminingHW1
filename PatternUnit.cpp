@@ -1,3 +1,4 @@
+
 #include "PatternUnit.h"
 
 std::string PatternUnit::getPatternName()

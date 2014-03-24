@@ -13,7 +13,7 @@ void PatternContainer::evaluatePatternValue()
 			temp.append(" ");
 			if(GlobalVariable::SMS[j].find(temp)!=string::npos)
 			{
-				pattern[i].incNormalPatternFreq();
+				PatternContainer::pattern[i].incNormalPatternFreq();
 			}	
 		}
 	}

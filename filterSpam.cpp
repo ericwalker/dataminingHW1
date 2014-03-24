@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <vector>
 #include <fstream>
@@ -9,7 +8,6 @@
 #include "TrainingClass_Sample.h"
 #define STRING_LENGTH 256
 using namespace std;
-
 
 void readSMSTrainingData()
 {
