@@ -37,6 +37,10 @@ public:
 		// 		pattern[i].calValue();
 
 		// }
+
+	// used for Sample Method
+	//void evaluatePatternValueSample();
+
 	std::vector<PatternUnit> getChoosePattern();
 		// {
 		// 	return choosePattern;

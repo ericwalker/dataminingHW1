@@ -24,6 +24,30 @@ void PatternContainer::evaluatePatternValue()
 		PatternContainer::pattern[i].calValue();
 
 }
+
+// used for sample method
+// void PatternContainer::evaluatePatternValueSample()
+// {
+// 			//cout<<PC.getPattern().size()<<endl;
+// 	for(int i=0;i<PatternContainer::pattern.size();i++)
+// 	{
+// 		for(int j=0;j<100;j++)
+// 		{
+// 			string temp;
+// 			temp.append(" ");
+// 			temp.append(PatternContainer::pattern[i].getPatternName());
+// 			temp.append(" ");
+// 			if(SMS[j].find(temp)!=string::npos)
+// 			{
+// 				PatternContainer::pattern[i].incNormalPatternFreq();
+// 			}	
+// 		}
+// 	}
+// 	for(int i=0;i<PatternContainer::pattern.size();i++)
+// 		PatternContainer::pattern[i].calValue();
+
+// }
+
 vector<PatternUnit> PatternContainer::getChoosePattern()
 {
 	return choosePattern;
