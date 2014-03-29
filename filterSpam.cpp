@@ -49,11 +49,11 @@ int main(int argc, char* argv[]){
 	std::vector<PatternUnit> AllCandidatePattern;	
 	readSMSTrainingData();
 
-	cout << "Aprioori's Result: /n";
+	cout << "Aprioori's Result: \n";
 	TrainingClassApriori TA(3,10);
 	TA.training();
 
-	cout << endl<<endl<< "Sample's Result: /n";
+	cout << endl<<endl<< "Sample's Result: \n";
 	TrainingClass_Sample TS(3,10);
 	TS.training();
 
