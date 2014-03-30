@@ -50,11 +50,11 @@ int main(int argc, char* argv[]){
 	readSMSTrainingData();
 
 	cout << "Apriori's Result: \n";
-	TrainingClassApriori TA(3,10);
+	TrainingClassApriori TA(3,30);
 	TA.training();
 
 	cout << endl<<endl<< "Sample's Result: \n";
-	TrainingClass_Sample TS(3,10);
+	TrainingClass_Sample TS(3,30);
 	TS.training();
 
 	return 0;

@@ -70,7 +70,7 @@ void TrainingClassApriori::training()
 	generateOneLengthPattern(PC);		
 
 	PC.evaluatePatternValue();
-	PC.SortPattern(20);
+	PC.SortPattern(numOfLengthOnePattern);
 
 	nPlusOnePattern(maxLengthOfPattern,maxLengthOfPattern,-1,"",PC.getChoosePattern().size(),PC.getChoosePattern());
 		
